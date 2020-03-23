@@ -41,6 +41,7 @@ namespace Dojo.Controllers
         public ActionResult Create()
         {
             SamouraiVM samouraiVM = new SamouraiVM();
+            samouraiVM.ArmesDisponibles= db.Armes.ToList();
             return View(samouraiVM);
         }
 
@@ -53,16 +54,15 @@ namespace Dojo.Controllers
         {
             if (ModelState.IsValid)
             {
-                Samourai samourai = new Samourai();
-                Arme arme = new Arme();
+                //Samourai samourai = new Samourai();
 
-                arme = db.Armes.Find(samouraiVM.IdArme);
+                Arme arme = db.Armes.Find(samouraiVM.IdArme);
 
-                samourai.Force = samouraiVM.Samourai.Force;
-                samourai.Nom = samouraiVM.Samourai.Nom;
-                samourai.Arme = arme;
+                //samourai.Force = samouraiVM.Samourai.Force;
+                //samourai.Nom = samouraiVM.Samourai.Nom;
+                samouraiVM.Samourai.Arme = arme;
 
-                db.Samourais.Add(samourai);
+                db.Samourais.Add(samouraiVM.Samourai);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

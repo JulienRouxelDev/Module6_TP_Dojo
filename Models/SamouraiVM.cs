@@ -11,9 +11,9 @@ namespace Dojo.Models
     {
 		private Samourai samourai;
 		private List<Arme> armesDisponibles;
-		private int idArme;
+		private int? idArme;
 
-		public int IdArme
+		public int? IdArme
 		{
 			get { return idArme; }
 			set { idArme = value; }
@@ -31,12 +31,6 @@ namespace Dojo.Models
 		{
 			get { return this.samourai; }
 			set { this.samourai = value; }
-		}
-
-		public SamouraiVM()
-		{
-			Context db = new Context();
-			this.armesDisponibles = db.Armes.ToList();
 		}
 
 	}

@@ -118,11 +118,11 @@ namespace Dojo.Controllers
             db.Armes.Remove(arme);
 
             //Mise a null des armes pour les samourais ayant cette arme
-            //var samourais = db.Samourais.ToList();       //.Where(x => x.Arme.Id == id);
-            //foreach (var samourai in samourais)
-            //{
-            //    samourai.Arme = null;
-            //}
+            var samourais = db.Samourais.Where(x => x.Arme.Id == id).ToList();       
+            foreach (var samourai in samourais)
+            {
+                samourai.Arme = null;
+            }
 
             db.SaveChanges();
             return RedirectToAction("Index");
