@@ -1,0 +1,48 @@
+﻿@model IEnumerable<BO.Samourai>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Liste des samouraïs</h2>
+
+<p>
+    @Html.ActionLink("Ajouter un nouveau samouraï", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Force)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nom)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Arme)
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Force)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Nom)
+    </td>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.Arme.Nom)
+    </td>
+    <td>
+        @Html.ActionLink("Modifier", "Edit", new { id = item.Id }) |
+        @Html.ActionLink("Détails", "Details", new { id = item.Id }) |
+        @Html.ActionLink("Supprimer", "Delete", new { id = item.Id })
+    </td>
+</tr>
+}
+
+</table>
