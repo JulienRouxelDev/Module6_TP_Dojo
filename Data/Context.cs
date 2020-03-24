@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BO;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -17,10 +18,22 @@ namespace Dojo.Data
     
         public Context() : base("name=Context")
         {
+           
         }
 
         public System.Data.Entity.DbSet<BO.Samourai> Samourais { get; set; }
-
         public System.Data.Entity.DbSet<BO.Arme> Armes { get; set; }
+        public System.Data.Entity.DbSet<BO.ArtMartial> ArtMartials { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Samourai>().HasOptional(s => s.Arme).WithOptionalDependent();
+            modelBuilder.Entity<Samourai>().HasMany(s => s.ArtMartial).WithMany();
+            modelBuilder.Entity<Samourai>().Ignore(p => p.Potentiel);
+
+            //base.OnModelCreating(modelBuilder);
+        }
+
+   
     }
 }

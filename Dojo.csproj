@@ -127,6 +127,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ArmesController.cs" />
+    <Compile Include="Controllers\ArtMartialController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SamouraisController.cs" />
     <Compile Include="Data\Context.cs" />
@@ -136,6 +137,10 @@
     <Compile Include="Migrations\202003230923357_init_bdd.cs" />
     <Compile Include="Migrations\202003230923357_init_bdd.Designer.cs">
       <DependentUpon>202003230923357_init_bdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003240956593_test.cs" />
+    <Compile Include="Migrations\202003240956593_test.Designer.cs">
+      <DependentUpon>202003240956593_test.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\SamouraiVM.cs" />
@@ -187,6 +192,11 @@
     <Content Include="Views\Armes\Details.cshtml" />
     <Content Include="Views\Armes\Edit.cshtml" />
     <Content Include="Views\Armes\Index.cshtml" />
+    <Content Include="Views\ArtMartial\Create.cshtml" />
+    <Content Include="Views\ArtMartial\Delete.cshtml" />
+    <Content Include="Views\ArtMartial\Details.cshtml" />
+    <Content Include="Views\ArtMartial\Edit.cshtml" />
+    <Content Include="Views\ArtMartial\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -213,6 +223,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202003230923357_init_bdd.resx">
       <DependentUpon>202003230923357_init_bdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003240956593_test.resx">
+      <DependentUpon>202003240956593_test.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

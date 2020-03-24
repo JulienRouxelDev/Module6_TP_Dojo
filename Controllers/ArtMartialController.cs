@@ -11,132 +11,109 @@ using Dojo.Data;
 
 namespace Dojo.Controllers
 {
-    public class ArmesController : Controller
+    public class ArtMartialController : Controller
     {
         private Context db = new Context();
 
-        // GET: Armes
+        // GET: ArtMartial
         public ActionResult Index()
         {
-            return View(db.Armes.ToList());
+            return View(db.ArtMartials.ToList());
         }
 
-        // GET: Armes/Details/5
+        // GET: ArtMartial/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Arme arme = db.Armes.Find(id);
-            if (arme == null)
+            ArtMartial artMartial = db.ArtMartials.Find(id);
+            if (artMartial == null)
             {
                 return HttpNotFound();
             }
-            return View(arme);
+            return View(artMartial);
         }
 
-        // GET: Armes/Create
+        // GET: ArtMartial/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Armes/Create
+        // POST: ArtMartial/Create
         // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
         // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Arme arme)
+        public ActionResult Create([Bind(Include = "Id,Nom")] ArtMartial artMartial)
         {
             if (ModelState.IsValid)
             {
-                
-                db.Armes.Add(arme);
+                db.ArtMartials.Add(artMartial);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(arme);
+            return View(artMartial);
         }
 
-        // GET: Armes/Edit/5
+        // GET: ArtMartial/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Arme arme = db.Armes.Find(id);
-            if (arme == null)
+            ArtMartial artMartial = db.ArtMartials.Find(id);
+            if (artMartial == null)
             {
                 return HttpNotFound();
             }
-            return View(arme);
+            return View(artMartial);
         }
 
-        // POST: Armes/Edit/5
+        // POST: ArtMartial/Edit/5
         // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
         // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Arme arme)
+        public ActionResult Edit([Bind(Include = "Id,Nom")] ArtMartial artMartial)
         {
             if (ModelState.IsValid)
             {
-                Arme armeBd = db.Armes.Find(arme.Id);
-                armeBd.Nom = arme.Nom;
-                armeBd.Degats = arme.Degats;
-
+                db.Entry(artMartial).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(arme);
+            return View(artMartial);
         }
 
-        // GET: Armes/Delete/5
+        // GET: ArtMartial/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Arme arme = db.Armes.Find(id);
-            if (arme == null)
+            ArtMartial artMartial = db.ArtMartials.Find(id);
+            if (artMartial == null)
             {
                 return HttpNotFound();
             }
-            return View(arme);
+            return View(artMartial);
         }
 
-        // POST: Armes/Delete/5
+        // POST: ArtMartial/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Arme arme = db.Armes.Find(id);
-            
-            //On regarde si l'arme est rattachée à un samourai
-            List<Arme> armeUtilisees = db.Samourais.Select(s => s.Arme).ToList();
-
-            if (!armeUtilisees.Contains(arme))
-            {
-                db.Armes.Remove(arme);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                ModelState.AddModelError("", $"Impossible de supprimer l'arme {arme.Nom} car elle est rattachée à un samourai.");
-                return View(arme);
-            }
-            //Mise a null des armes pour les samourais ayant cette arme
-            //var samourais = db.Samourais.Where(x => x.Arme.Id == id).ToList();       
-            //foreach (var samourai in samourais)
-            //{
-            //    samourai.Arme = null;
-            //}
-
+            ArtMartial artMartial = db.ArtMartials.Find(id);
+            db.ArtMartials.Remove(artMartial);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

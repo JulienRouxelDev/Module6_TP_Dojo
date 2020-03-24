@@ -11,7 +11,21 @@ namespace Dojo.Models
     {
 		private Samourai samourai;
 		private List<Arme> armesDisponibles;
+		private List<ArtMartial> artMartiauxDisponibles;
 		private int? idArme;
+		private List<int> idsArtMartiaux;
+
+		public List<ArtMartial> ArtMatiauxDisponible
+		{
+			get { return artMartiauxDisponibles; }
+			set { artMartiauxDisponibles = value; }
+		}
+
+		public List<int> IdsArtMartiaux
+		{
+			get { return idsArtMartiaux; }
+			set { idsArtMartiaux = value; }
+		}
 
 		public int? IdArme
 		{

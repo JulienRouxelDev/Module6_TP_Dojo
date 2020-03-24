@@ -35,6 +35,18 @@
             @Html.DisplayFor(model => model.Arme.Nom)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.ArtMartial)
+        </dt>
+
+        <dd>
+            @foreach (var artMartial in model.ArtMartial)
+            {
+                @Html.DisplayFor(am => artMartial.Nom) <br />
+            }
+
+        </dd>
+
     </dl>
 
     @using (Html.BeginForm()) {

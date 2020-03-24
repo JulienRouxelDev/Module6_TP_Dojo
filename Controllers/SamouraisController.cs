@@ -30,6 +30,7 @@ namespace Dojo.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Samourai samourai = db.Samourais.Find(id);
+            samourai.Potentiel = (samourai.Force + samourai.Arme.Degats) * (samourai.ArtMartial.Count() + 1);
             if (samourai == null)
             {
                 return HttpNotFound();
@@ -41,7 +42,11 @@ namespace Dojo.Controllers
         public ActionResult Create()
         {
             SamouraiVM samouraiVM = new SamouraiVM();
-            samouraiVM.ArmesDisponibles= db.Armes.ToList();
+           
+            samouraiVM.ArtMatiauxDisponible = db.ArtMartials.ToList();
+
+            samouraiVM.ArmesDisponibles = ListeArmesDisponibles();
+
             return View(samouraiVM);
         }
 
@@ -81,12 +86,31 @@ namespace Dojo.Controllers
             
             if (samourai == null)
             {
-                
                 return HttpNotFound();
             }
 
             SamouraiVM samouraiVM = new SamouraiVM();
+            samouraiVM.ArmesDisponibles = ListeArmesDisponibles();
+
+            //si le samourai possede une arme on la rajoute à la liste
+            if (samourai.Arme!=null)
+            {
+                samouraiVM.ArmesDisponibles.Add(samourai.Arme);
+            }
+
+            samouraiVM.ArtMatiauxDisponible = db.ArtMartials.ToList();
+
             samouraiVM.Samourai = samourai;
+            if (samourai.Arme!=null)
+            {
+                samouraiVM.IdArme = samourai.Arme.Id;
+            }
+
+            if (samourai.ArtMartial.Count>0)
+            {
+                samouraiVM.IdsArtMartiaux = samourai.ArtMartial.Select(am => am.Id).ToList();
+            }
+
 
             return View(samouraiVM);
         }
@@ -106,6 +130,7 @@ namespace Dojo.Controllers
                 samouraiBd.Force = samouraiVM.Samourai.Force;
                 samouraiBd.Nom = samouraiVM.Samourai.Nom;
                 samouraiBd.Arme = arme;
+                samouraiBd.ArtMartial = db.ArtMartials.Where(am => samouraiVM.IdsArtMartiaux.Contains(am.Id)).ToList();
 
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -146,6 +171,28 @@ namespace Dojo.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private List<Arme> ListeArmesDisponibles()
+        {
+            //Liste des armes existantes
+            List<Arme> armesExistantes = db.Armes.ToList();
+
+            //Liste des armes disponibles
+            List<Arme> armesDisponibles = new List<Arme>();
+
+            //Liste des armes utilisées
+            List<Arme> armesUtilisees = db.Samourais.Select(s => s.Arme).ToList();
+
+            foreach (var arme in armesExistantes)
+            {
+                if (arme!=null && !armesUtilisees.Contains(arme))
+                {
+                    armesDisponibles.Add(arme);
+                }
+            }
+
+            return armesDisponibles;
         }
     }
 }
