@@ -59,14 +59,15 @@ namespace Dojo.Controllers
         {
             if (ModelState.IsValid)
             {
-                //Samourai samourai = new Samourai();
-
                 Arme arme = db.Armes.Find(samouraiVM.IdArme);
 
-                //samourai.Force = samouraiVM.Samourai.Force;
-                //samourai.Nom = samouraiVM.Samourai.Nom;
                 samouraiVM.Samourai.Arme = arme;
-
+                if (samouraiVM.IdsArtMartiaux!=null)
+                {
+                    samouraiVM.Samourai.ArtMartial = db.ArtMartials.Where(am => samouraiVM.IdsArtMartiaux.Contains(am.Id)).ToList();
+                }
+                
+                
                 db.Samourais.Add(samouraiVM.Samourai);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -130,8 +131,10 @@ namespace Dojo.Controllers
                 samouraiBd.Force = samouraiVM.Samourai.Force;
                 samouraiBd.Nom = samouraiVM.Samourai.Nom;
                 samouraiBd.Arme = arme;
-                samouraiBd.ArtMartial = db.ArtMartials.Where(am => samouraiVM.IdsArtMartiaux.Contains(am.Id)).ToList();
-
+                if (samouraiVM.IdsArtMartiaux != null)
+                {
+                    samouraiBd.ArtMartial = db.ArtMartials.Where(am => samouraiVM.IdsArtMartiaux.Contains(am.Id)).ToList();
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
